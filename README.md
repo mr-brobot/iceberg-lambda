@@ -5,9 +5,9 @@ Demo using PyIceberg in AWS Lambda
 
 ## Problem
 
-PyIceberg currently relies on [`multiprocessing`](https://docs.python.org/3/library/multiprocessing.html) in [`Table.plan_files`](https://github.com/apache/iceberg/blob/a73f10b3e7a98d7efcab7e01382b78bffdc7028e/python/pyiceberg/table/__init__.py#L776). Unfortunately, this module relies on `/dev/shm`, which is not provided by serverless runtimes like [Lambda](https://aws.amazon.com/blogs/compute/parallel-processing-in-python-with-aws-lambda/) and [Fargate](https://github.com/aws/containers-roadmap/issues/710). In effect, this assumes the user has control over the host environment and thus does not work in serverless environments.
+PyIceberg currently relies on [`multiprocessing`](https://docs.python.org/3/library/multiprocessing.html) in [`Table.plan_files`](https://github.com/apache/iceberg/blob/a73f10b3e7a98d7efcab7e01382b78bffdc7028e/python/pyiceberg/table/__init__.py#L776). Unfortunately, this module relies on `/dev/shm`, which is not provided by serverless runtimes like [AWS Lambda](https://aws.amazon.com/blogs/compute/parallel-processing-in-python-with-aws-lambda/) and [AWS Fargate](https://github.com/aws/containers-roadmap/issues/710). In effect, reliance on `/dev/shm` assumes the user has control over the host environment and thus disqualifies use in serverless environments.
 
-[Apparently](https://github.com/lambci/docker-lambda/issues/75#issuecomment-668897239), One way to emulate Lambda or Fargate behavior locally is to run a Docker image with [`--ipc="none"`](https://docs.docker.com/engine/reference/run/#ipc-settings---ipc). This will disable the `/dev/shm` mount and cause the `multiprocessing` module to fail with the following error:
+[Apparently](https://github.com/lambci/docker-lambda/issues/75#issuecomment-668897239), One way to emulate Lambda or Fargate container runtimes locally is by running a container with [`--ipc="none"`](https://docs.docker.com/engine/reference/run/#ipc-settings---ipc). This will disable the `/dev/shm` mount and cause the `multiprocessing` module to fail with the following error:
 
 ```python
 [ERROR] OSError: [Errno 38] Function not implemented
@@ -34,15 +34,16 @@ Traceback (most recent call last):
     sl = self._semlock = _multiprocessing.SemLock(
 ```
 
+Interesting note: The [`multiprocessing.pool.ThreadPool`](https://docs.python.org/3/library/multiprocessing.html#multiprocessing.pool.ThreadPool) documentation has the following note:
+> A `ThreadPool` shares the same interface as `Pool`, which is designed around a pool of processes and predates the introduction of the `concurrent.futures` module... Users should generally prefer to use `concurrent.futures.ThreadPoolExecutor`, which has a simpler interface that was designed around threads from the start, and which returns `concurrent.futures.Future` instances that are compatible with many other libraries, including `asyncio`.
+
 ## Proposal
 
-I think PyIceberg should support multiple concurrency strategies, allowing the user to configure which one suits their runtime/resources best.
+Perhaps PyIceberg should support multiple concurrency strategies, allowing the user to configure which is most appropriate for their runtime/resources.
 
-Instead of using the multiprocessing module directly, we could instead depend on a concrete ipmlementation of an [`Executor`](https://docs.python.org/3/library/concurrent.futures.html#executor-objects) from the [concurrent.futures](https://docs.python.org/3/library/concurrent.futures.html) module. The user can select the appropriate implementation depending on a configuration value:
+Instead of using the multiprocessing module directly, we could instead depend on a concrete implemention of an [`Executor`](https://docs.python.org/3/library/concurrent.futures.html#executor-objects) from the [concurrent.futures](https://docs.python.org/3/library/concurrent.futures.html) module. The user can select the appropriate implementation depending on a configuration value:
 
-- `PYICEBERG__CONCURRENCY=multiprocessing` uses the [`ProcessPoolExecutor`](https://docs.python.org/3/library/concurrent.futures.html#processpoolexecutor) (default, same as current implementation)
-- `PYICEBERG__CONCURRENCY=threading` uses the [`ThreadPoolExecutor`](https://docs.python.org/3/library/concurrent.futures.html#threadpoolexecutor) (appropriate for serverless environments)
+- `PYICEBERG__CONCURRENCY=process` uses the [`ProcessPoolExecutor`](https://docs.python.org/3/library/concurrent.futures.html#processpoolexecutor) (default, same as current implementation)
+- `PYICEBERG__CONCURRENCY=thread` uses the [`ThreadPoolExecutor`](https://docs.python.org/3/library/concurrent.futures.html#threadpoolexecutor) (appropriate for serverless environments)
 
-This would allow us to support other concurrency models in the future, even supporting user-defined implementations of the `Executor` ABC.
-
-I'd be happy to work on this feature once the community agrees on a direction.
+This might even allow PyIceberg to support other concurrency models in the future, e.g. user-defined implementations of the `Executor` ABC.

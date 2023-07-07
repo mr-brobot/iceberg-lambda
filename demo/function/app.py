@@ -24,7 +24,7 @@ def handler(event: "Query", context) -> "list[dict]":
 
     limit = event["limit"] if "limit" in event else 10
 
-    result = scan.to_arrow().slice_length(limit)
+    result = scan.to_arrow().slice(length=limit)
 
     return result.to_pylist()
 

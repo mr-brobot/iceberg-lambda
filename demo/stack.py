@@ -30,6 +30,7 @@ class PyIcebergFunction(DockerImageFunction):
             construct_id,
             code=image_code,
             architecture=Architecture.ARM_64,
+            memory_size=1024,
             timeout=Duration.seconds(30),
             tracing=Tracing.ACTIVE,
             environment={
