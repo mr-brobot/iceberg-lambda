@@ -8,10 +8,6 @@
                 "editor.defaultFormatter": "ms-python.black-formatter",
                 "editor.formatOnSave": true
             },
-            "rust-analyzer.linkedProjects": [
-                "/workspaces/backend/legal/database/functions/functions/Cargo.toml",
-                "/workspaces/backend/legal/sdk/Cargo.toml"
-            ],
             "extensions": [
                 "ms-python.python",
                 "ms-python.vscode-pylance",
