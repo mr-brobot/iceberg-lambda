@@ -1,0 +1,47 @@
+{
+    "name": "Python CDK",
+    "image": "mcr.microsoft.com/vscode/devcontainers/python:3.10-bullseye",
+    "customizations": {
+        "settings": {
+            "python.formatting.provider": "none",
+            "[python]": {
+                "editor.defaultFormatter": "ms-python.black-formatter",
+                "editor.formatOnSave": true
+            },
+            "rust-analyzer.linkedProjects": [
+                "/workspaces/backend/legal/database/functions/functions/Cargo.toml",
+                "/workspaces/backend/legal/sdk/Cargo.toml"
+            ],
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-python.black-formatter",
+                "github.copilot",
+                "github.copilot-labs",
+                "eamodio.gitlens",
+                "esbenp.prettier-vscode",
+                "ms-toolsai.jupyter",
+                "ms-toolsai.vscode-jupyter-powertoys",
+            ]
+        }
+    },
+    "mounts": [
+        "source=${localEnv:HOME}${localEnv:USERPROFILE}/.aws,target=/home/vscode/.aws,type=bind,consistency=cached"
+    ],
+    "containerEnv": {
+        "AWS_PROFILE": "cloudbend",
+        "LEGAL_ENV": "dev"
+    },
+    "remoteUser": "vscode",
+    "postCreateCommand": "scripts/poetry/install.sh",
+    "features": {
+        "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
+        "ghcr.io/devcontainers-contrib/features/poetry:2": {
+            "version": "1.5.1"
+        },
+        "ghcr.io/devcontainers/features/aws-cli:1": {},
+        "ghcr.io/devcontainers-contrib/features/aws-cdk:2": {
+            "version": "2.87.0"
+        }
+    }
+}
