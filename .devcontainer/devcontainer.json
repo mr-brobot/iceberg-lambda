@@ -21,7 +21,7 @@
                 "eamodio.gitlens",
                 "esbenp.prettier-vscode",
                 "ms-toolsai.jupyter",
-                "ms-toolsai.vscode-jupyter-powertoys",
+                "ms-toolsai.vscode-jupyter-powertoys"
             ]
         }
     },

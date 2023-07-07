@@ -1,17 +1,12 @@
 [tool.poetry]
-name = "iceberg-lambda"
+name = "demo"
 version = "0.1.0"
 description = ""
 authors = ["Josh Wiley <josh@cloudbend.dev>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-boto3 = "^1.26"
-aws-cdk-lib = "2.87.0"
-constructs = "^10.2"
-aws-glue-sessions = "^0.38.1"
-jupyter = "^1.0.0"
-aws-cdk-aws-glue-alpha = "^2.87.0a0"
+pyiceberg = { git = "https://github.com/mr-brobot/iceberg.git", branch = "master", subdirectory = "python", extras = ["glue", "s3fs", "pyarrow"] }
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

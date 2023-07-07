@@ -203,14 +203,32 @@ publication = ">=0.0.3"
 typeguard = ">=2.13.3,<2.14.0"
 
 [[package]]
+name = "aws-cdk-aws-glue-alpha"
+version = "2.87.0a0"
+description = "The CDK Construct Library for AWS::Glue"
+optional = false
+python-versions = "~=3.7"
+files = [
+    {file = "aws-cdk.aws-glue-alpha-2.87.0a0.tar.gz", hash = "sha256:dc3c716f3c4c9ced90bfc5a2243265b7a6baaf946398aeb913d5c2d909496bc1"},
+    {file = "aws_cdk.aws_glue_alpha-2.87.0a0-py3-none-any.whl", hash = "sha256:8b2d7f58d2f20dfd36f64fd6812b1662ab7c8713dd36086705f5b8386cc52588"},
+]
+
+[package.dependencies]
+aws-cdk-lib = "2.87.0"
+constructs = ">=10.0.0,<11.0.0"
+jsii = ">=1.82.0,<2.0.0"
+publication = ">=0.0.3"
+typeguard = ">=2.13.3,<2.14.0"
+
+[[package]]
 name = "aws-cdk-lib"
-version = "2.86.0"
+version = "2.87.0"
 description = "Version 2 of the AWS Cloud Development Kit library"
 optional = false
 python-versions = "~=3.7"
 files = [
-    {file = "aws-cdk-lib-2.86.0.tar.gz", hash = "sha256:bd8b0c4c531aadc7b49dcb504e77fc97768e7df8d3b4c97dd084c1c980ba6fef"},
-    {file = "aws_cdk_lib-2.86.0-py3-none-any.whl", hash = "sha256:d9c3c2857190695ea7b2ed4655ea3879774aa54e8513d3d799aa3d149fe04879"},
+    {file = "aws-cdk-lib-2.87.0.tar.gz", hash = "sha256:28092098ebd8e4674cf9ffc6bd6a150645e89f3ddb932908180e04e939bbf2de"},
+    {file = "aws_cdk_lib-2.87.0-py3-none-any.whl", hash = "sha256:3c296461871421b24a3d5ace52764a0f2503d8956e6f8aa7df3111918e137be7"},
 ]
 
 [package.dependencies]
@@ -2515,4 +2533,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "906943b6357b0454b0356acdf9fb61f8724cbd8e303fd1c0bd283614756136e8"
+content-hash = "8fc1d5749f59c1b7df022e37dc2aa9940e760aa8e0032f5446b85a4653a90104"
