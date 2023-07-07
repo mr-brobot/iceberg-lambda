@@ -6,7 +6,7 @@ authors = ["Josh Wiley <josh@cloudbend.dev>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-pyiceberg = { git = "https://github.com/mr-brobot/iceberg.git", branch = "master", subdirectory = "python", extras = ["glue", "s3fs", "pyarrow"] }
+pyiceberg = { git = "https://github.com/mr-brobot/iceberg.git", branch = "lambda", subdirectory = "python", extras = ["glue", "s3fs", "pyarrow"] }
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

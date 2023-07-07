@@ -16,7 +16,7 @@ RUN poetry export --output requirements.txt --without-hashes --without-urls
 
 FROM public.ecr.aws/lambda/python:3.10
 
-# git
+# git (required to install pyiceberg fork)
 RUN yum install -y git
 
 COPY --from=requirements /lambda/src/requirements.txt .

@@ -818,8 +818,8 @@ zstandard = ["zstandard (>=0.13.0,<1.0.0)"]
 [package.source]
 type = "git"
 url = "https://github.com/mr-brobot/iceberg.git"
-reference = "master"
-resolved_reference = "a73f10b3e7a98d7efcab7e01382b78bffdc7028e"
+reference = "lambda"
+resolved_reference = "0930d8e2b0792829c2e2db4a35158c8a4f086536"
 subdirectory = "python"
 
 [[package]]
@@ -1163,4 +1163,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "f1d4a4cf9f73ef857f3faa37aeed560102c6b7977f451e324125248f6fc9cafe"
+content-hash = "8a7560b4cb93575a1ac4e8b2a4c78056e480e5329ebaee9ad9d4f9147ae32590"
